@@ -3,6 +3,8 @@ import 'tabs/home_screen.dart';
 import 'tabs/chart_screen.dart';
 
 class MyApp extends StatelessWidget {
+  const MyApp({super.key});
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -13,6 +15,8 @@ class MyApp extends StatelessWidget {
 }
 
 class BottomNavigationBarExample extends StatefulWidget {
+  const BottomNavigationBarExample({super.key});
+
   @override
   State<BottomNavigationBarExample> createState() =>
       _BottomNavigationBarExampleState();
