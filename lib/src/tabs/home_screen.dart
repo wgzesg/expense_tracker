@@ -1,19 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_application_1/src/tabs/daily_review_screen.dart';
+import 'package:flutter_application_1/store/store.dart';
 
 class HomeScreen extends StatelessWidget {
   // Dummy data for categories and expenses
   final Map<String, double> categorySummary = {
-    'Food': 120.0,
+    'Dining': 120.0,
     'Transportation': 50.0,
-    'Entertainment': 80.0,
+    'Grocery': 80.0,
     'Others': 40.0,
   };
 
-  final List<Map<String, dynamic>> recentExpenses = [
-    {'category': 'Food', 'amount': 12.0, 'date': 'Today, 9:30 AM'},
-    {'category': 'Transportation', 'amount': 20.0, 'date': 'Today, 8:00 AM'},
-    {'category': 'Entertainment', 'amount': 50.0, 'date': 'Yesterday'},
-  ];
+  List<Map<String, dynamic>> recentExpenses = getExpenses();
 
   HomeScreen({super.key});
 
@@ -77,7 +75,11 @@ class HomeScreen extends StatelessWidget {
             // 2. Button for reviewing today's expenses
             ElevatedButton(
               onPressed: () {
-                // Add action for the button
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => const DailyReviewScreen()),
+                );
               },
               style: ElevatedButton.styleFrom(
                 minimumSize: const Size(double.infinity, 48),
@@ -104,14 +106,12 @@ class HomeScreen extends StatelessWidget {
                 final expense = recentExpenses[index];
                 return ListTile(
                   contentPadding: EdgeInsets.zero,
-                  title: Text(expense['category']),
+                  title: Text(expense['details']),
                   subtitle: Text(expense['date']),
                   trailing: Text(
                     '\$${expense['amount'].toStringAsFixed(2)}',
                     style: const TextStyle(
-                      fontWeight: FontWeight.bold,
-                      color: Colors.red,
-                    ),
+                        fontWeight: FontWeight.bold, color: Colors.blue),
                   ),
                 );
               },
@@ -122,7 +122,8 @@ class HomeScreen extends StatelessWidget {
               onPressed: () {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => const SettingsScreen()),
+                  MaterialPageRoute(
+                      builder: (context) => const SettingsScreen()),
                 );
               },
               child: const Text(
@@ -185,7 +186,8 @@ class _SettingsScreenState extends State<SettingsScreen> {
               trailing: IconButton(
                 icon: const Icon(Icons.edit),
                 onPressed: () {
-                  _editLimit(context, 'Monthly Limit', monthlyLimit, (newLimit) {
+                  _editLimit(context, 'Monthly Limit', monthlyLimit,
+                      (newLimit) {
                     setState(() {
                       monthlyLimit = newLimit;
                     });
@@ -207,7 +209,8 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 trailing: IconButton(
                   icon: const Icon(Icons.edit),
                   onPressed: () {
-                    _editLimit(context, '${entry.key} Limit', entry.value, (newLimit) {
+                    _editLimit(context, '${entry.key} Limit', entry.value,
+                        (newLimit) {
                       setState(() {
                         categoryThresholds[entry.key] = newLimit;
                       });
@@ -249,7 +252,8 @@ class _SettingsScreenState extends State<SettingsScreen> {
     double currentValue,
     void Function(double) onSave,
   ) {
-    TextEditingController controller = TextEditingController(text: currentValue.toStringAsFixed(2));
+    TextEditingController controller =
+        TextEditingController(text: currentValue.toStringAsFixed(2));
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
