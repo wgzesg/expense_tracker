@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_application_1/store/store.dart';
 
 class DailyReviewScreen extends StatefulWidget {
-  const DailyReviewScreen({super.key});
-
+  final VoidCallback updateNotifier;
+  const DailyReviewScreen(this.updateNotifier, {Key? key}) : super(key: key);
   @override
   _DailyReviewScreenState createState() => _DailyReviewScreenState();
 }
@@ -267,5 +267,6 @@ class _DailyReviewScreenState extends State<DailyReviewScreen> {
     setState(() {
       todayExpenses = getTodayExpenses();
     });
+    widget.updateNotifier();
   }
 }
